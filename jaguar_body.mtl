@@ -1,0 +1,35 @@
+# Blender MTL File: 'jaguar_body.blend'
+# Material Count: 3
+
+newmtl jaguar_body
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.062500 0.062500 0.062500
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\great\OneDrive\Pictures\jaguar_body.png
+
+newmtl metal1
+Ns 172.549020
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\great\OneDrive\Pictures\jaguar_body.png
+
+newmtl shiny
+Ns 913.265305
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\great\OneDrive\Pictures\jaguar_body.png
