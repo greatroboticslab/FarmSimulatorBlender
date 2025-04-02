@@ -1,6 +1,6 @@
 # Farming Simulator Blender Files
 
-![screnshot](Media/screenshot.png "Tractor animation example.")
+![screenshot](screenshot.png "Tractor animation example.")
 
 ### .blend files were made with Blender 2.79
 
