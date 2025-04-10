@@ -48,7 +48,7 @@ for f in range(frame_start, frame_end + 1):
         rot = bone.matrix.to_quaternion()
 
         frame_dof_pos.append(pos.x)  # could be extended for more DOFs
-        frame_body_pos.append([pos.x, pos.y, pos.z])
+        frame_body_pos.append([pos.z, pos.x, pos.y])
         frame_body_rot.append([rot.w, rot.x, rot.y, rot.z])  # wxyz format
 
     dof_positions.append(frame_dof_pos)
@@ -65,14 +65,17 @@ for f in range(frame_start, frame_end + 1):
             pos_now = mathutils.Vector(body_positions[-1][i])
             pos_prev = mathutils.Vector(last_frame_positions[i])
             vel = (pos_now - pos_prev) / dt
-            frame_body_vel.append([vel.x, vel.y, vel.z])
+            
+            #Change XYZ to ZXY to fit AMP convention for IsaacLab
+            
+            frame_body_vel.append([vel.z, vel.x, vel.y])
 
             rot_now = mathutils.Quaternion(body_rotations[-1][i])
             rot_prev = mathutils.Quaternion(last_frame_rotations[i])
             delta_rot = rot_now * rot_prev.conjugated()
             axis, angle = delta_rot.axis, delta_rot.angle
             ang_vel = (angle / dt) * axis
-            frame_body_ang_vel.append([ang_vel.x, ang_vel.y, ang_vel.z])
+            frame_body_ang_vel.append([ang_vel.z, ang_vel.x, ang_vel.y])
 
             # For DOF velocity, let's just use root bone's x position diff for now
             frame_dof_vel.append((frame_dof_pos[i] - last_frame_dof[i]) / dt)
