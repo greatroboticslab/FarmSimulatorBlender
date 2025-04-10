@@ -28,10 +28,23 @@ body_angular_velocities = []
 last_frame_positions = None
 last_frame_rotations = None
 
-bones = armature.pose.bones
-bone_names = [b.name for b in bones]
+# Convert Unity skeleton to AMP skeleton. Returns "NULL" if a bone is discarded
+def ConvertBoneName(boneName):
+    
+    if(boneName == "Hips"):
+        return "pelvis"
+    if(boneName == "Chest"):
+        return "torso"
+    if(boneName == "Head"):
+        return "head"
+    
+    return "NULL"
 
-for bone in bones:
+#All bones, before conversion
+
+pre_bones = armature.pose.bones
+
+for bone in pre_bones:
     dof_names.append(bone.name)
     body_names.append(bone.name)
 
