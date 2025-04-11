@@ -1,6 +1,7 @@
 import bpy
 import numpy as np
 import mathutils
+import os
 
 # Change this to match your armature name
 armature = bpy.data.objects["Skeleton"]
@@ -166,13 +167,20 @@ def ConvertToDOF(b):
 
 pre_bones = armature.pose.bones
 
+bones = []
+for b in pre_bones:
+    if ConvertBoneName(b.name) != "NULL":
+        bones.append(b)
+
 for bone in pre_bones:
     #dof_names.append(bone.name)
     subDOFs = ConvertToDOF(bone)
     for i in range(len(subDOFs[0])):
         print(subDOFs[0][i])
         dof_names.append(subDOFs[0][i])
-    body_names.append(bone.name)
+        
+    if ConvertBoneName(bone.name) != "NULL":
+        body_names.append(bone.name)
 
 for f in range(frame_start, frame_end + 1):
     scene.frame_set(f)
@@ -183,8 +191,7 @@ for f in range(frame_start, frame_end + 1):
     frame_body_rot = []
 
     for bone in pre_bones:
-        pos = bone.head.copy()
-        rot = bone.matrix.to_quaternion()
+        
         
         #ConvertToDOF(bone)
         
@@ -193,9 +200,12 @@ for f in range(frame_start, frame_end + 1):
             dpos = subDOFs[1][i].head.copy()
             frame_dof_pos.append(dpos.x)
         
-        #frame_dof_pos.append(pos.x)  # could be extended for more DOFs
-        frame_body_pos.append([pos.z, pos.x, pos.y])
-        frame_body_rot.append([rot.w, rot.x, rot.y, rot.z])  # wxyz format
+        if ConvertBoneName(bone.name) != "NULL":
+            pos = bone.head.copy()
+            rot = bone.matrix.to_quaternion()
+            #frame_dof_pos.append(pos.x)  # could be extended for more DOFs
+            frame_body_pos.append([pos.z, pos.x, pos.y])
+            frame_body_rot.append([rot.w, rot.x, rot.y, rot.z])  # wxyz format
 
     dof_positions.append(frame_dof_pos)
     body_positions.append(frame_body_pos)
@@ -209,24 +219,27 @@ for f in range(frame_start, frame_end + 1):
 
         j = 0
 
-        for i in range(len(pre_bones)):
-            pos_now = mathutils.Vector(body_positions[-1][i])
-            pos_prev = mathutils.Vector(last_frame_positions[i])
-            vel = (pos_now - pos_prev) / dt
-            
-            #Change XYZ to ZXY to fit AMP convention for IsaacLab
-            
-            frame_body_vel.append([vel.z, vel.x, vel.y])
+        for i in range(len(bones)):
+        
+            if ConvertBoneName(bones[i].name) != "NULL":
+        
+                pos_now = mathutils.Vector(body_positions[-1][i])
+                pos_prev = mathutils.Vector(last_frame_positions[i])
+                vel = (pos_now - pos_prev) / dt
+                
+                #Change XYZ to ZXY to fit AMP convention for IsaacLab
+                
+                frame_body_vel.append([vel.z, vel.x, vel.y])
 
-            rot_now = mathutils.Quaternion(body_rotations[-1][i])
-            rot_prev = mathutils.Quaternion(last_frame_rotations[i])
-            delta_rot = rot_now * rot_prev.conjugated()
-            axis, angle = delta_rot.axis, delta_rot.angle
-            ang_vel = (angle / dt) * axis
-            frame_body_ang_vel.append([ang_vel.z, ang_vel.x, ang_vel.y])
+                rot_now = mathutils.Quaternion(body_rotations[-1][i])
+                rot_prev = mathutils.Quaternion(last_frame_rotations[i])
+                delta_rot = rot_now * rot_prev.conjugated()
+                axis, angle = delta_rot.axis, delta_rot.angle
+                ang_vel = (angle / dt) * axis
+                frame_body_ang_vel.append([ang_vel.z, ang_vel.x, ang_vel.y])
 
             # For DOF velocity, let's just use root bone's x position diff for now
-            subDOFs = ConvertToDOF(bone)
+            subDOFs = ConvertToDOF(bones[i])
             for k in range(len(subDOFs[0])):
                 frame_dof_vel.append(frame_dof_pos[i] - last_frame_dof[i] / dt)
                 j += 1
@@ -239,8 +252,10 @@ for f in range(frame_start, frame_end + 1):
         # For first frame, just fill zeros
         dof_velocities.append([[0.0] * len(dof_positions)][0])
         #dof_velocities.append([[0.0] * len(bones)][0])
-        body_linear_velocities.append([[0.0, 0.0, 0.0]] * len(pre_bones))
-        body_angular_velocities.append([[0.0, 0.0, 0.0]] * len(pre_bones))
+        
+        
+        body_linear_velocities.append([[0.0, 0.0, 0.0]] * len(bones))
+        body_angular_velocities.append([[0.0, 0.0, 0.0]] * len(bones))
 
     last_frame_positions = body_positions[-1]
     last_frame_rotations = body_rotations[-1]
@@ -259,8 +274,12 @@ npz_data = {
     "body_angular_velocities": np.array(body_angular_velocities).astype(np.float32),
 }
 
-# Save to file (adjust path for Windows)
-output_path = bpy.path.abspath("//humanoid_motion.npz")
+
+blend_filepath = bpy.data.filepath
+blend_filename = os.path.basename(blend_filepath)
+project_name = os.path.splitext(blend_filename)[0]
+
+output_path = bpy.path.abspath("//"+project_name+".npz")
 np.savez(output_path, **npz_data)
 
 print("Saved motion to", output_path)
