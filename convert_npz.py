@@ -131,7 +131,7 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "right_lower_arm":
-        names.append("right_elbow")
+        names.append("right_elbow_joint")
         bones.append(b)
         
     if n == "left_upper_arm":
@@ -143,7 +143,7 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "left_lower_arm":
-        names.append("left_elbow")
+        names.append("left_elbow_joint")
         bones.append(b)
         
     
@@ -156,7 +156,7 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "right_shin":
-        names.append("right_knee")
+        names.append("right_knee_joint")
         bones.append(b)
         
     if n == "right_foot":
@@ -176,7 +176,7 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "left_shin":
-        names.append("left_knee")
+        names.append("left_knee_joint")
         bones.append(b)
         
     if n == "left_foot":
