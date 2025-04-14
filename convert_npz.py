@@ -225,7 +225,7 @@ for bone in pre_bones:
         dof_names.append(subDOFs[0][i])
         
     if ConvertBoneName(bone.name) != "NULL":
-        body_names.append(bone.name)
+        body_names.append(ConvertBoneName(bone.name))
 
 for f in range(frame_start, frame_end + 1):
     scene.frame_set(f)
