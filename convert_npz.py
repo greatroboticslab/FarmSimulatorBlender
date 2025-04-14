@@ -69,6 +69,26 @@ def ConvertBoneName(boneName):
     
     return "NULL"
     
+
+#What type of name is appended to a joint string, errors have occured using joint_name_xyz instead of pitch yaw roll
+def JointNameConvention(xyz, convention):
+    if xyz == 1:
+        if convention == 1:
+            return "_x"
+        if convention == 2:
+            return "_pitch_joint"
+    if xyz == 2:
+        if convention == 1:
+            return "_y"
+        if convention == 2:
+            return "_yaw_joint"
+    if xyz == 3:
+        if convention == 1:
+            return "_z"
+        if convention == 2:
+            return "_roll_joint"
+    return ""
+    
 def ConvertToDOF(b):
     
     names = []
@@ -78,25 +98,25 @@ def ConvertToDOF(b):
     n = ConvertBoneName(b.name)
     
     if n == "torso":
-        names.append("abdomen_x")
-        names.append("abdomen_y")
-        names.append("abdomen_z")
+        names.append("abdomen" + JointNameConvention(1,2))
+        names.append("abdomen" + JointNameConvention(2,2))
+        names.append("abdomen" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
         
     if n == "head":
-        names.append("neck_x")
-        names.append("neck_y")
-        names.append("neck_z")
+        names.append("neck" + JointNameConvention(1,2))
+        names.append("neck" + JointNameConvention(2,2))
+        names.append("neck" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
         
     if n == "right_upper_arm":
-        names.append("right_shoulder_x")
-        names.append("right_shoulder_y")
-        names.append("right_shoulder_z")
+        names.append("right_shoulder" + JointNameConvention(1,2))
+        names.append("right_shoulder" + JointNameConvention(2,2))
+        names.append("right_shoulder" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
@@ -106,9 +126,9 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "left_upper_arm":
-        names.append("left_shoulder_x")
-        names.append("left_shoulder_y")
-        names.append("left_shoulder_z")
+        names.append("left_shoulder" + JointNameConvention(1,2))
+        names.append("left_shoulder" + JointNameConvention(2,2))
+        names.append("left_shoulder" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
@@ -119,9 +139,9 @@ def ConvertToDOF(b):
         
     
     if n == "right_thigh":
-        names.append("right_hip_x")
-        names.append("right_hip_y")
-        names.append("right_hip_z")
+        names.append("right_hip" + JointNameConvention(1,2))
+        names.append("right_hip" + JointNameConvention(2,2))
+        names.append("right_hip" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
@@ -131,17 +151,17 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "right_foot":
-        names.append("right_ankle_x")
-        names.append("right_ankle_y")
-        names.append("right_ankle_z")
+        names.append("right_ankle" + JointNameConvention(1,2))
+        names.append("right_ankle" + JointNameConvention(2,2))
+        names.append("right_ankle" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
         
     if n == "left_thigh":
-        names.append("left_hip_x")
-        names.append("left_hip_y")
-        names.append("left_hip_z")
+        names.append("left_hip" + JointNameConvention(1,2))
+        names.append("left_hip" + JointNameConvention(2,2))
+        names.append("left_hip" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
@@ -151,9 +171,9 @@ def ConvertToDOF(b):
         bones.append(b)
         
     if n == "left_foot":
-        names.append("left_ankle_x")
-        names.append("left_ankle_y")
-        names.append("left_ankle_z")
+        names.append("left_ankle" + JointNameConvention(1,2))
+        names.append("left_ankle" + JointNameConvention(2,2))
+        names.append("left_ankle" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
