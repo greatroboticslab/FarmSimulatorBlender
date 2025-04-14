@@ -97,6 +97,15 @@ def ConvertToDOF(b):
     
     n = ConvertBoneName(b.name)
     
+    if n == "hips":
+        names.append("waist" + JointNameConvention(1,2))
+        names.append("waist" + JointNameConvention(2,2))
+        names.append("waist" + JointNameConvention(3,2))
+        bones.append(b)
+        bones.append(b)
+        bones.append(b)
+        
+    
     if n == "torso":
         names.append("abdomen" + JointNameConvention(1,2))
         names.append("abdomen" + JointNameConvention(2,2))
@@ -174,6 +183,22 @@ def ConvertToDOF(b):
         names.append("left_ankle" + JointNameConvention(1,2))
         names.append("left_ankle" + JointNameConvention(2,2))
         names.append("left_ankle" + JointNameConvention(3,2))
+        bones.append(b)
+        bones.append(b)
+        bones.append(b)
+        
+    if n == "left_hand":
+        names.append("left_wrist" + JointNameConvention(1,2))
+        names.append("left_wrist" + JointNameConvention(2,2))
+        names.append("left_wrist" + JointNameConvention(3,2))
+        bones.append(b)
+        bones.append(b)
+        bones.append(b)
+    
+    if n == "right_hand":
+        names.append("right_wrist" + JointNameConvention(1,2))
+        names.append("right_wrist" + JointNameConvention(2,2))
+        names.append("right_wrist" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
         bones.append(b)
