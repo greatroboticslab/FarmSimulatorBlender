@@ -97,7 +97,7 @@ def ConvertToDOF(b):
     
     n = ConvertBoneName(b.name)
     
-    if n == "hips":
+    if n == "pelvis":
         names.append("waist" + JointNameConvention(1,2))
         names.append("waist" + JointNameConvention(2,2))
         names.append("waist" + JointNameConvention(3,2))
