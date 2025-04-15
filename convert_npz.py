@@ -137,23 +137,6 @@ def ConvertToDOF(b):
         bones.append(b)
         bones.append(b)
         
-    
-    if n == "torso":
-        names.append("abdomen" + JointNameConvention(1,2))
-        names.append("abdomen" + JointNameConvention(2,2))
-        names.append("abdomen" + JointNameConvention(3,2))
-        bones.append(b)
-        bones.append(b)
-        bones.append(b)
-        
-    if n == "head":
-        names.append("neck" + JointNameConvention(1,2))
-        names.append("neck" + JointNameConvention(2,2))
-        names.append("neck" + JointNameConvention(3,2))
-        bones.append(b)
-        bones.append(b)
-        bones.append(b)
-        
     if n == "right_upper_arm":
         names.append("right_shoulder" + JointNameConvention(1,2))
         names.append("right_shoulder" + JointNameConvention(2,2))
@@ -193,7 +176,6 @@ def ConvertToDOF(b):
         
     if n == "right_foot":
         names.append("right_ankle" + JointNameConvention(1,2))
-        names.append("right_ankle" + JointNameConvention(2,2))
         names.append("right_ankle" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
@@ -213,7 +195,6 @@ def ConvertToDOF(b):
         
     if n == "left_foot":
         names.append("left_ankle" + JointNameConvention(1,2))
-        names.append("left_ankle" + JointNameConvention(2,2))
         names.append("left_ankle" + JointNameConvention(3,2))
         bones.append(b)
         bones.append(b)
@@ -245,7 +226,7 @@ def ConvertToDOF(b):
 pre_bones = armature.pose.bones
 
 bones = []
-g1_bones = []
+g1_bones = [] # Body Bones
 
 for b in pre_bones:
     if ConvertBoneName(b.name) != "NULL":
@@ -318,20 +299,25 @@ for f in range(frame_start, frame_end + 1):
                 axis, angle = delta_rot.axis, delta_rot.angle
                 ang_vel = (angle / dt) * axis
                 frame_body_ang_vel.append([ang_vel.z, ang_vel.x, ang_vel.y])
+        
+        for i in range(len(bones)):
+        
+            if ConvertBoneName(bones[i].name) != "NULL":
+        
+                # For DOF velocity, let's just use root bone's x position diff for now
+                subDOFs = ConvertToDOF(bones[i])
+                for k in range(len(subDOFs[0])):
+                    frame_dof_vel.append(frame_dof_pos[i] - last_frame_dof[i] / dt)
+                    j += 1
+                #frame_dof_vel.append((frame_dof_pos[i] - last_frame_dof[i]) / dt)
 
-            # For DOF velocity, let's just use root bone's x position diff for now
-            subDOFs = ConvertToDOF(g1_bones[i])
-            for k in range(len(subDOFs[0])):
-                frame_dof_vel.append(frame_dof_pos[i] - last_frame_dof[i] / dt)
-                j += 1
-            #frame_dof_vel.append((frame_dof_pos[i] - last_frame_dof[i]) / dt)
-
-        #dof_velocities.append(frame_dof_vel)
+        dof_velocities.append(frame_dof_vel)
         body_linear_velocities.append(frame_body_vel)
         body_angular_velocities.append(frame_body_ang_vel)
     else:
         # For first frame, just fill zeros
-        dof_velocities.append([[0.0] * len(dof_positions)][0])
+        #print(len(dof_positions[0]))
+        dof_velocities.append([[0.0] * len(dof_positions[0])][0])
         #dof_velocities.append([[0.0] * len(bones)][0])
         
         
