@@ -69,6 +69,38 @@ def ConvertBoneName(boneName):
     
     return "NULL"
     
+    
+# G1 naming convention
+def ConvertBoneNameG1(boneName):
+    
+    if(boneName == "Hips"):
+        return "pelvis"
+        
+    if(boneName == "Right_UpperArm"):
+        return "right_shoulder_pitch_link"
+    if(boneName == "Right_LowerArm"):
+        return "right_elbow_link"
+    if(boneName == "Right_Hand"):
+        return "right_rubber_hand"
+        
+    if(boneName == "Left_UpperArm"):
+        return "left_shoulder_pitch_link"
+    if(boneName == "Left_LowerArm"):
+        return "left_elbow_link"
+    if(boneName == "Left_Hand"):
+        return "left_rubber_hand"
+    
+    if(boneName == "Right_UpperLeg"):
+        return "right_hip_yaw_link"
+    if(boneName == "Right_Foot"):
+        return "right_ankle_roll_link"
+    
+    if(boneName == "Left_UpperLeg"):
+        return "left_hip_yaw_link"
+    if(boneName == "Left_Foot"):
+        return "left_ankle_roll_link"
+    
+    return "NULL"
 
 #What type of name is appended to a joint string, errors have occured using joint_name_xyz instead of pitch yaw roll
 def JointNameConvention(xyz, convention):
@@ -213,9 +245,13 @@ def ConvertToDOF(b):
 pre_bones = armature.pose.bones
 
 bones = []
+g1_bones = []
+
 for b in pre_bones:
     if ConvertBoneName(b.name) != "NULL":
         bones.append(b)
+    if ConvertBoneNameG1(b.name) != "NULL":
+        g1_bones.append(b)
 
 for bone in pre_bones:
     #dof_names.append(bone.name)
@@ -224,8 +260,8 @@ for bone in pre_bones:
         print(subDOFs[0][i])
         dof_names.append(subDOFs[0][i])
         
-    if ConvertBoneName(bone.name) != "NULL":
-        body_names.append(ConvertBoneName(bone.name))
+    if ConvertBoneNameG1(bone.name) != "NULL":
+        body_names.append(ConvertBoneNameG1(bone.name))
 
 for f in range(frame_start, frame_end + 1):
     scene.frame_set(f)
@@ -245,7 +281,7 @@ for f in range(frame_start, frame_end + 1):
             dpos = subDOFs[1][i].head.copy()
             frame_dof_pos.append(dpos.x)
         
-        if ConvertBoneName(bone.name) != "NULL":
+        if ConvertBoneNameG1(bone.name) != "NULL":
             pos = bone.head.copy()
             rot = bone.matrix.to_quaternion()
             #frame_dof_pos.append(pos.x)  # could be extended for more DOFs
@@ -264,9 +300,9 @@ for f in range(frame_start, frame_end + 1):
 
         j = 0
 
-        for i in range(len(bones)):
+        for i in range(len(g1_bones)):
         
-            if ConvertBoneName(bones[i].name) != "NULL":
+            if ConvertBoneNameG1(g1_bones[i].name) != "NULL":
         
                 pos_now = mathutils.Vector(body_positions[-1][i])
                 pos_prev = mathutils.Vector(last_frame_positions[i])
@@ -284,7 +320,7 @@ for f in range(frame_start, frame_end + 1):
                 frame_body_ang_vel.append([ang_vel.z, ang_vel.x, ang_vel.y])
 
             # For DOF velocity, let's just use root bone's x position diff for now
-            subDOFs = ConvertToDOF(bones[i])
+            subDOFs = ConvertToDOF(g1_bones[i])
             for k in range(len(subDOFs[0])):
                 frame_dof_vel.append(frame_dof_pos[i] - last_frame_dof[i] / dt)
                 j += 1
@@ -299,8 +335,8 @@ for f in range(frame_start, frame_end + 1):
         #dof_velocities.append([[0.0] * len(bones)][0])
         
         
-        body_linear_velocities.append([[0.0, 0.0, 0.0]] * len(bones))
-        body_angular_velocities.append([[0.0, 0.0, 0.0]] * len(bones))
+        body_linear_velocities.append([[0.0, 0.0, 0.0]] * len(g1_bones))
+        body_angular_velocities.append([[0.0, 0.0, 0.0]] * len(g1_bones))
 
     last_frame_positions = body_positions[-1]
     last_frame_rotations = body_rotations[-1]
