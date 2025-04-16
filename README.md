@@ -17,3 +17,11 @@ import_npz.py is a python script that at the moment will import reverse_engineer
 ### Exporting
 
 export_npz.py is a python script that when run, will convert a selected skeleton to a .npz format to be used with IsaacLab. To run it, simply open a project, and select a skeleton. Then, open a new window bar, and choose text editor. In the editor, open the export_npz.py file and then click Run Script. It will output a .npz file in the same directory as the Blender project.
+
+### Preview
+
+You can preview a .npz animation with the command:
+
+	motion_viewer.py --file <file.npz>
+	
+Matplotlib, Numpy, and PyTorch are required to run.
