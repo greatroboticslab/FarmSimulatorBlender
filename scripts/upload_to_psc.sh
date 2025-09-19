@@ -1,0 +1,1 @@
+scp -r ../Data/vggt_images/ byler@data.bridges2.psc.edu:"/ocean/projects/cis240145p/byler/HumanoidRobotTrainingData/image_processing/."
