@@ -1,10 +1,20 @@
-# Farming Simulator Blender Files
+
+# Overview
+
+The blender is designed to make assests for our farming simulator. Overall, the blender is able to make multiple assests including multiple kinds of the fruits, machines, and robots.  
+
+The example of the humanoid is in the below:
 
 ![screenshot](screenshot.png "Tractor animation example.")
 
-### .blend files were made with Blender 2.79
-
 This repository contains the .blend files and exported .fbx and .obj models that are used in our farming simulator.
+
+### Note that: .blend files were made with Blender 2.79
+
+
+# Tutorial 
+
+In the following, I will show you how to do aapple assests making using the blender and once finished, it can be expored to Unity 
 
 ## VGGT Post-Processing and Export
 
@@ -69,6 +79,11 @@ Remeshed VGGT pointclouds need to be processed in Blender before they can be exp
 ![vggt15](Media/bl15.png "Step 15")
 
 15. Export the mesh as an .obj to the output/ folder.
+
+
+# File Conversion.
+
+Here are the handy tools for file conversion to make assets workable with blender. 
 
 ## .npz Conversion
 
