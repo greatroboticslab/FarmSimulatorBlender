@@ -1,6 +1,7 @@
 import bpy
 import os
 import sys
+from pathlib import Path
 
 # sys.argv includes Blender's own arguments, so we need to find the '--'
 argv = sys.argv
@@ -10,6 +11,24 @@ else:
     args = []
 
 bvh_path = args[0]
+
+
+p = Path(bvh_path)
+# Get all parts of the path
+parts = p.parts
+# Keep only the last 6 parents + the file itself
+tPath = parts[-7:]
+
+output_dir = Path(*tPath)
+output_dir = "../Data/unity_fbx_files/" + str(output_dir)[:-4] + ".fbx"
+#output_dir = "../Data/unity_fbx_files/" + os.path.basename(bvh_path)
+
+if len(args) > 1:
+    output_dir = args[1]
+
+print(output_dir)
+
+#quit()
 
 if not os.path.exists(bvh_path):
     print("ERROR: BVH file not found:", bvh_path)
@@ -147,23 +166,50 @@ end = bpy.context.scene.frame_end
 print("Baking animation from frame {} to {}...".format(start, end))
 
 # Enter pose mode and select all pose bones
+# --- Bake animation ---
+bpy.context.scene.objects.active = fbx_armature
 bpy.ops.object.mode_set(mode='POSE')
 bpy.ops.pose.select_all(action='SELECT')
 
-# --- Perform baking ---
+print("Baking animation from frame {} to {}...".format(start, end))
+
+# Bake without clearing constraints yet
 bpy.ops.nla.bake(
     frame_start=start,
     frame_end=end,
     only_selected=True,
     visual_keying=True,
-    clear_constraints=True,
-    use_current_action=True,
+    clear_constraints=False,  # important: keep constraints until after baking
+    use_current_action=False,
     bake_types={'POSE'}
 )
 
-print("✅ Animation baked to FBX armature.")
+print("✅ Animation baked. Now assigning baked action...")
 
-# --- Switch back to object mode ---
+
+# Find the baked action (the most recent non-empty one)
+baked_action = None
+if fbx_armature.animation_data and fbx_armature.animation_data.action:
+    baked_action = fbx_armature.animation_data.action
+else:
+    for action in bpy.data.actions:
+        if len(action.fcurves) > 0:
+            baked_action = action
+            break
+
+#if baked_action:
+#    if not fbx_armature.animation_data:
+#        fbx_armature.animation_data_create()
+#    fbx_armature.animation_data.action = baked_action
+#    print("Assigned baked action:", baked_action.name)
+#else:
+#    print("⚠️ No baked action found.")
+
+# Now we can remove constraints safely
+bpy.ops.object.mode_set(mode='POSE')
+for bone in fbx_armature.pose.bones:
+    for c in bone.constraints:
+        bone.constraints.remove(c)
 bpy.ops.object.mode_set(mode='OBJECT')
 
 # --- Export to FBX ---
@@ -174,30 +220,37 @@ bpy.ops.object.select_all(action='DESELECT')
 bvh_obj.select = True
 bpy.ops.object.delete()
 
-baked_action = None
-for action in bpy.data.actions:
-    if len(action.fcurves) > 0:
-        baked_action = action
-        print("Found action:", action.name)
-
-if baked_action:
-    if not fbx_armature.animation_data:
-        fbx_armature.animation_data_create()
-    fbx_armature.animation_data.action = baked_action
-    print("Assigned baked action to FBX armature:", baked_action.name)
-else:
-    print("⚠️ No baked action found — export will have no animation.")
 
 
+#baked_action = None
+#for action in bpy.data.actions:
+#    if len(action.fcurves) > 0:
+#        baked_action = action
+#        print("Found action:", action.name)
+
+#if baked_action:
+#    if not fbx_armature.animation_data:
+#        fbx_armature.animation_data_create()
+#    fbx_armature.animation_data.action = baked_action
+#    print("Assigned baked action to FBX armature:", baked_action.name)
+#else:
+#    print("⚠️ No baked action found — export will have no animation.")
+
+
+#bpy.ops.wm.save_as_mainfile(filepath=output_dir + ".blend")
+#quit()
 
 # output_path = os.path.join(os.getcwd(), "output_scene.blend")
-# bpy.ops.wm.save_as_mainfile(filepath=output_path)
+
 
 bpy.ops.object.select_all(action='DESELECT')
 fbx_armature.select = True
 bpy.context.scene.objects.active = fbx_armature
 
-out_path = os.path.join(os.path.dirname(bpy.data.filepath), "processed_armature.fbx")
+#out_path = os.path.join(os.path.dirname(bpy.data.filepath), "processed_armature.fbx")
+out_path = output_dir
+os.makedirs(os.path.dirname(output_dir), exist_ok=True)
+#bpy.ops.wm.save_as_mainfile(filepath=output_dir + ".blend")
 
 bpy.ops.export_scene.fbx(
     filepath=out_path,
@@ -207,10 +260,6 @@ bpy.ops.export_scene.fbx(
     bake_space_transform=False,
     object_types={'ARMATURE', 'MESH'},
     use_mesh_modifiers=True,
-    add_leaf_bones=False,
-    bake_anim=True,
-    bake_anim_use_all_actions=False,
-    bake_anim_force_startend_keying=True,  # ensures first/last keyframes exported
-    bake_anim_simplify_factor=0.0
+    add_leaf_bones=False
 )
 print("✅ Exported FBX with animation:", out_path)
