@@ -11,6 +11,24 @@ This repository contains the .blend files and exported .fbx and .obj models that
 
 ### Note that: .blend files were made with Blender 2.79
 
+The files in `Crops/` are newer and need Blender 4.4 or later.
+
+# What is in this repository
+
+| Folder | What it holds |
+|---|---|
+| [`Crops/`](Crops/) | Crop models added in November 2026: 43 models of ten crops (strawberry, cucumber, watermelon, lettuce, spinach, bell pepper, apple, corn, soybean, dandelion), plants and fruit as separate models, one Blender file per crop. Start with its README. |
+| `Plants/` | Earlier plant models as .obj, with a few .blend files: bell pepper, corn, dandelion, soybean, the dirt row, plastic mulch and the pepper stake. |
+| `output/` | Scanned (VGGT) models after the post-processing steps below: apple, bell pepper, cabbage, strawberry plant. |
+| `BlenderWIP/` | The cabbage, work in progress. |
+| `Rover/`, `Tractor/`, `Tools/` | Models of the rovers and their parts, the tractor and plow, and hand tools. |
+| `Map/`, `Misc/` | Map pieces (building, dirt patch, ground plane) and small helpers (markers, waypoint cone, person template). |
+| `Humanoid Animations/`, `Tractor Animations/` | Humanoid animation .blend files with their .fbx exports. |
+| `Data/` | Motion data and conversion tests (.fbx, .bvh). `Data/unity_fbx_files` and `Data/momask_bvh_files` are not tracked. |
+| `scripts/` | The .bvh and .npz conversion scripts and the copy-to-Unity script described below. |
+| `Media/`, `Recordings/` | Pictures used by this README, and a screen recording. |
+
+
 
 # Tutorial 
 
