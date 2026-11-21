@@ -1,156 +1,80 @@
+<p align="center"><img src="Media/readme/banner.jpg" alt="Strawberries, corn, apples, lettuce and a watermelon from the crop models" width="100%"></p>
 
-# Overview
+<h1 align="center">Farm Simulator Blender Assets</h1>
 
-The blender is designed to make assests for our farming simulator. Overall, the blender is able to make multiple assests including multiple kinds of the fruits, machines, and robots.  
+<p align="center">The 3D models and animations behind the lab's <a href="https://github.com/greatroboticslab/FarmSimulator">farm simulator</a>:<br>crops, robots, machines, and the scripts that get them into Unity.</p>
 
-The example of the humanoid is in the below:
+<p align="center">
+  <img src="https://img.shields.io/badge/crop%20models-43-2e7d32" alt="43 crop models">
+  <img src="https://img.shields.io/badge/crops-10-558b2f" alt="10 crops">
+  <img src="https://img.shields.io/badge/Blender-4.4%20%7C%202.79-e87d0d?logo=blender&logoColor=white" alt="Blender 4.4 and 2.79">
+  <img src="https://img.shields.io/badge/made%20for-Unity-222c37?logo=unity&logoColor=white" alt="Made for Unity">
+</p>
 
-![screenshot](screenshot.png "Tractor animation example.")
+<p align="center"><a href="#crop-models">Crop models</a> &nbsp;|&nbsp; <a href="#what-is-in-this-repository">Folders</a> &nbsp;|&nbsp; <a href="#quick-start">Quick start</a> &nbsp;|&nbsp; <a href="#guides">Guides</a></p>
 
-This repository contains the .blend files and exported .fbx and .obj models that are used in our farming simulator.
+## Crop models
 
-### Note that: .blend files were made with Blender 2.79
+43 models of ten crops, added in November 2026. The plant and its fruit are separate models, so the simulator can hang any number of fruit on a plant and a robot can pick them one at a time. Every crop has two or three varieties and comes at real size. One Blender file per crop, in [`Crops/`](Crops/).
 
-The files in `Crops/` are newer and need Blender 4.4 or later.
+<table>
+  <tr>
+    <td align="center" width="20%"><a href="Crops/Strawberry/"><img src="Media/readme/strawberry.jpg" alt="Strawberry" width="100%"><br><b>Strawberry</b></a><br><sub>3 plants, 3 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Cucumber/"><img src="Media/readme/cucumber.jpg" alt="Cucumber" width="100%"><br><b>Cucumber</b></a><br><sub>2 plants, 3 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Watermelon/"><img src="Media/readme/watermelon.jpg" alt="Watermelon" width="100%"><br><b>Watermelon</b></a><br><sub>2 plants, 3 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Lettuce/"><img src="Media/readme/lettuce.jpg" alt="Lettuce" width="100%"><br><b>Lettuce</b></a><br><sub>3 plants</sub></td>
+    <td align="center" width="20%"><a href="Crops/Spinach/"><img src="Media/readme/spinach.jpg" alt="Spinach" width="100%"><br><b>Spinach</b></a><br><sub>3 plants</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="20%"><a href="Crops/BellPepper/"><img src="Media/readme/bellpepper.jpg" alt="Bell pepper" width="100%"><br><b>Bell pepper</b></a><br><sub>2 plants, 3 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Apple/"><img src="Media/readme/apple.jpg" alt="Apple" width="100%"><br><b>Apple</b></a><br><sub>3 plants, 3 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Corn/"><img src="Media/readme/corn.jpg" alt="Corn" width="100%"><br><b>Corn</b></a><br><sub>2 plants, 2 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Soybean/"><img src="Media/readme/soybean.jpg" alt="Soybean" width="100%"><br><b>Soybean</b></a><br><sub>2 plants, 2 fruit</sub></td>
+    <td align="center" width="20%"><a href="Crops/Dandelion/"><img src="Media/readme/dandelion.jpg" alt="Dandelion (weed)" width="100%"><br><b>Dandelion (weed)</b></a><br><sub>2 plants</sub></td>
+  </tr>
+</table>
 
-# What is in this repository
+<p align="center"><img src="Media/readme/fruit.jpg" alt="The fruit models: strawberries, cucumbers, watermelons, bell peppers, apples, ears of corn and soybean pods" width="100%"></p>
+
+Each crop folder has its own README with pictures, sizes and triangle counts. [`Crops/README.md`](Crops/README.md) explains how the files are laid out and how to take a model into Unity.
+
+## What is in this repository
 
 | Folder | What it holds |
 |---|---|
-| [`Crops/`](Crops/) | Crop models added in November 2026: 43 models of ten crops (strawberry, cucumber, watermelon, lettuce, spinach, bell pepper, apple, corn, soybean, dandelion), plants and fruit as separate models, one Blender file per crop. Start with its README. |
-| `Plants/` | Earlier plant models as .obj, with a few .blend files: bell pepper, corn, dandelion, soybean, the dirt row, plastic mulch and the pepper stake. |
-| `output/` | Scanned (VGGT) models after the post-processing steps below: apple, bell pepper, cabbage, strawberry plant. |
-| `BlenderWIP/` | The cabbage, work in progress. |
-| `Rover/`, `Tractor/`, `Tools/` | Models of the rovers and their parts, the tractor and plow, and hand tools. |
-| `Map/`, `Misc/` | Map pieces (building, dirt patch, ground plane) and small helpers (markers, waypoint cone, person template). |
-| `Humanoid Animations/`, `Tractor Animations/` | Humanoid animation .blend files with their .fbx exports. |
-| `Data/` | Motion data and conversion tests (.fbx, .bvh). `Data/unity_fbx_files` and `Data/momask_bvh_files` are not tracked. |
-| `scripts/` | The .bvh and .npz conversion scripts and the copy-to-Unity script described below. |
-| `Media/`, `Recordings/` | Pictures used by this README, and a screen recording. |
-
-
-
-# Tutorial 
-
-In the following, I will show you how to do aapple assests making using the blender and once finished, it can be expored to Unity 
-
-## VGGT Post-Processing and Export
-
-Remeshed VGGT pointclouds need to be processed in Blender before they can be exported to Unity.
-
-![vggt1](Media/bl1.png "Step 1")
-
-1. Import the remeshed pointcloud .obj (processed by MeshLab) into Blender.
-
-![vggt2](Media/bl2.png "Step 2")
-
-2. It should look like this. Press TAB to go into edit mode.
-
-![vggt3](Media/bl3.png "Step 3")
-
-3. Rotate the mesh 180 degrees along the Y axis.
-
-![vggt4](Media/bl4.png "Step 4")
-
-4.  Move the center of the fruit/plant to be located at the origin. This typically only involves moving the mesh in the direction of the green arrow.
-
-![vggt5](Media/bl5.png "Step 5")
-
-5. Rotate the mesh along the Z axis 180 degrees, so that the back of the mesh is pointing the same direction as the green arrow.
-
-![vggt6](Media/bl6.png "Step 6")
-
-6. Split the view into the 3D viewer and the UV image editor. Then press numpad 1 to view the model from the front. Zoom in and hold shift + middle mouse button to move the view until the front of the mesh is roughly square shaped.
-
-![vggt7](Media/bl7.png "Step 7")
-
-7. Exit edit mode, and create a new material in the materials tab.
-
-![vggt8](Media/bl8.png "Step 8")
-
-8. Once a new material is created, go to the texture tab and create a new texture.
-
-![vggt9](Media/bl9.png "Step 9")
-
-9. After making the new texture, click the open button, and selected the mesh's texture, typically located in the Data/vggt_images/ folder.
-
-![vggt10](Media/bl10.png "Step 10")
-
-10. Open the image preview in the UV image editor.
-
-![vggt11](Media/bl11.png "Step 11")
-
-11. Select the mesh, go into edit mode, and select all the vertices. Then press U, and choose Project from View (Bounds).
-
-![vggt12](Media/bl12.png "Step 12")
-
-12. The UV layout should be roughly square shaped in the UV Image Editor. scale and move the UVs to match the mesh. You can go into Texture preview mode to preview the mesh and its texture in the 3D view.
-
-![vggt13](Media/bl13.png "Step 13")
-
-13. While in edit mode, select faces of the mesh that should be deleted (background). Select face mode, and press C to use the circle select tool to more easily select them.
-
-![vggt14](Media/bl14.png "Step 14")
-
-14. Delete these faces, and exit edit mode.
-
-![vggt15](Media/bl15.png "Step 15")
-
-15. Export the mesh as an .obj to the output/ folder.
-
-
-# File Conversion.
-
-Here are the handy tools for file conversion to make assets workable with blender. They are located in the scripts folder.
-
-## .npz Conversion
-
-![npz_screenshot](npz.png "A converted .npz file viewed in a motion viewer.")
-
-### Importing
-
-import_npz.py is a python script that at the moment will import reverse_engineering_test.npz in the same directory as the Blender project.
-
-### Exporting
-
-export_npz.py is a python script that when run, will convert a selected skeleton to a .npz format to be used with IsaacLab. To run it, simply open a project, and select a skeleton. Then, open a new window bar, and choose text editor. In the editor, open the export_npz.py file and then click Run Script. It will output a .npz file in the same directory as the Blender project.
-
-### Preview
-
-You can preview a .npz animation with the command:
-
-	motion_viewer.py --file <file.npz>
-	
-Matplotlib, Numpy, and PyTorch are required to run.
-
-motion_loader.py is used to view statistic of a .npz animation. To run:
-
-	motion_loader.py --file <file.npz>
-
-## MoMask / .bvh Conversion
-
-![bvh_screenshot](bvh.png "Retargeting a .bvh to the Unity skeleton.")
-
-### Automatically
-
-You can use .bvh files generated by [MoMask](https://github.com/EricGuo5513/momask-codes) to create animations too.
-
-	bash convert_all_bvh.sh
-
-Or do:
-
-	blender -b -P bvh_to_fbx.py -- [path to .bvh]
-
-to do just one animation.
-
-When finished, run:
-
-	bash copy_to_unity.sh
-
-to copy all the converted .fbx animations to Unity.
-
-### Manually
-
-Open a new Blender project with the Unity humanoid skeleton. Then import the .bvh file. Now first select the .bvh skeleton, then shift-right-click the Unity skeleton so that it is yellow. Then open a new text editor window, open **convert_bvh.py**, and run it. The animations should now be converted to the Unity skeleton, and you can export it.
-
-When finished, drag and drop the exported .fbx animation files into the Unity Assets folder for use in animations.
+| [`Crops/`](Crops/) | The crop models above: strawberry, cucumber, watermelon, lettuce, spinach, bell pepper, apple, corn, soybean and dandelion. Blender 4.4 files with packed textures. |
+| [`Plants/`](Plants/) | Earlier plant models as .obj, with a few .blend files: bell pepper, corn, dandelion, soybean, the dirt row, plastic mulch and the pepper stake. |
+| [`output/`](output/) | Scanned (VGGT) models after the post-processing guide below: apple, bell pepper, cabbage, strawberry plant. |
+| [`BlenderWIP/`](BlenderWIP/) | The cabbage, work in progress. |
+| [`Rover/`](Rover/), [`Tractor/`](Tractor/), [`Tools/`](Tools/) | The rovers and their parts, the tractor and plow, and hand tools. |
+| [`Map/`](Map/), [`Misc/`](Misc/) | Map pieces (building, dirt patch, ground plane) and small helpers (markers, waypoint cone, person template). |
+| [`Humanoid Animations/`](Humanoid%20Animations/), [`Tractor Animations/`](Tractor%20Animations/) | Humanoid animation .blend files with their .fbx exports. |
+| [`Data/`](Data/) | Motion data and conversion tests (.fbx, .bvh). `Data/unity_fbx_files` and `Data/momask_bvh_files` are not tracked. |
+| [`scripts/`](scripts/) | The .bvh and .npz conversion scripts and the copy-to-Unity script. |
+| [`docs/`](docs/) | The step-by-step guides. |
+| [`Media/`](Media/), [`Recordings/`](Recordings/) | Pictures used by the READMEs, and a screen recording. |
+
+## Quick start
+
+1. Get the files. The repository is large (about 2 GB), so a shallow clone is quicker:
+   ```
+   git clone --depth 1 https://github.com/greatroboticslab/FarmSimulatorBlender.git
+   ```
+2. Open a crop in Blender 4.4 or newer, for example `Crops/Lettuce/lettuce.blend`. Everything is at real size (1 unit is 1 metre, Z up) and the textures are inside the file.
+3. To take a model into the farm simulator: select one object, move it to the world origin (Alt+G), and export it as FBX or OBJ with *Selected Objects* ticked. The details are in [`Crops/README.md`](Crops/README.md).
+
+The older files (animations, rovers, tractor, the earlier plants) were made with Blender 2.79. Newer Blender versions open them; Blender 2.79 does not open the files in `Crops/`.
+
+## Robots, machines and animations
+
+The humanoid, the tractor and the rovers of the simulator are here too, with the humanoid's animations as .blend files and .fbx exports.
+
+<p align="center"><img src="screenshot.png" alt="Tractor animation example" width="80%"></p>
+
+## Guides
+
+| Guide | What it covers |
+|---|---|
+| [Preparing a scanned (VGGT) model](docs/vggt_post_processing.md) | Fifteen steps with pictures: import the remeshed point cloud, place it at the origin, lay out its UVs, cut away the background, export it for Unity. |
+| [File conversion](docs/file_conversion.md) | Importing, exporting and previewing .npz motion files (IsaacLab), and turning MoMask .bvh files into .fbx animations for Unity. |
+| [Crop models](Crops/README.md) | How the crop files are laid out and how to use a model in Unity. |
